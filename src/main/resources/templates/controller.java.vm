@@ -1,0 +1,107 @@
+package ${package.Controller};
+
+import ${package.DTO}.${entity}SearchDTO;
+import ${package.Entity}.${entity};
+import ${package.Service}.${table.serviceName};
+import ${package.VO}.${entity}VO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+#if(${restControllerStyle})
+#else
+import org.springframework.stereotype.Controller;
+#end
+#if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+#end
+#if(${swagger})
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+#end
+#if(${entityLombokModel})
+import lombok.RequiredArgsConstructor;
+#else
+import org.springframework.beans.factory.annotation.Autowired;
+#end
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * <p>
+ * $!{table.comment} 前端控制器
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${swagger})
+@Api(value = "$!{table.comment}", tags = "$!{table.comment}接口")
+#end
+#if(${restControllerStyle})
+@RestController
+#else
+@Controller
+#end
+@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+#if(${entityLombokModel})
+@RequiredArgsConstructor
+#end
+#if(${kotlin})
+class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
+
+#else
+#if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+#else
+public class ${table.controllerName} {
+#end
+    #if(${entityLombokModel})
+    private final ${table.serviceName} service;
+    #else
+    @Autowired
+    private ${table.serviceName} service;
+    #end
+
+    /**
+     * 获取$!{table.comment}
+     *
+     * @param searchDTO 查询参数
+     * @return $!{table.comment}
+     */
+    @GetMapping("/detail")
+    #if(${swagger})
+    @ApiOperation(value = "获取$!{table.comment}", notes = "传入${entity}")
+    #end
+    public Result<${entity}VO> getDetail(${entity}SearchDTO searchDTO) {
+        return service.getDetail(searchDTO);
+    }
+
+    /**
+     * 分页获取 $!{table.comment}
+     *
+     * @param page      分页参数
+     * @param searchDTO 查询参数
+     * @return $!{table.comment}
+     */
+    @GetMapping("/page")
+    #if(${swagger})
+    @ApiOperation(value = "分页获取$!{table.comment}", notes = "传入${entity}")
+    #end
+    public Result<IPage<${entity}VO>> getPage(Page<${entity}VO> page, ${entity}SearchDTO searchDTO) {
+        return Result.data(service.getPage(page, searchDTO));
+    }
+
+    /**
+     * 新增或修改$!{table.comment}
+     *
+     * @param entity $!{table.comment}
+     * @return 新增或修改结果
+     */
+    @PostMapping("/submit")
+    #if(${swagger})
+    @ApiOperation(value = "新增或修改", notes = "传入${entity}")
+    #end
+    public Result<?> submit(@RequestBody ${entity} entity) {
+        return service.submit(entity);
+    }
+
+}
+#end

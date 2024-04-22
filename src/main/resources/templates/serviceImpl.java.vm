@@ -1,0 +1,55 @@
+package ${package.ServiceImpl};
+
+import ${package.DTO}.${entity}SearchDTO;
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${package.VO}.${entity}VO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import ${superServiceImplClassPackage};
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+
+}
+#else
+public class ${table.serviceImplName}
+    extends ${superServiceImplClass}<${table.mapperName}, ${entity}>
+    implements ${table.serviceName} {
+
+    @Override
+    public Result<${entity}VO> getDetail(${entity}SearchDTO searchDTO) {
+        if (searchDTO.getId() == null) {
+            return Result.fail("ID不能为空");
+        }
+        final List<${entity}VO> list = baseMapper.selectVOPage(null, searchDTO);
+        if (Func.isEmpty(list)) {
+            return Result.data(null);
+        }
+        final ${entity}VO vo = list.get(0);
+        return Result.data(vo);
+    }
+
+    @Override
+    public IPage<${entity}VO> getPage(IPage<${entity}VO> page, ${entity}SearchDTO searchDTO) {
+        return page.setRecords(baseMapper.selectVOPage(page, searchDTO));
+    }
+
+    @Override
+    public Result<?> submit(${entity} entity) {
+        return Result.status(saveOrUpdate(entity));
+    }
+}
+#end

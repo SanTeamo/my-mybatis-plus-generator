@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${package.Mapper}.${table.mapperName}">
+
+#if(${enableCache})
+    <!-- 开启二级缓存 -->
+    <cache type="${cacheClassName}"/>
+
+#end
+#if(${baseResultMap})
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="${package.Entity}.${entity}">
+#foreach($field in ${table.fields})
+#if(${field.keyFlag})##生成主键排在第一位
+        <id column="${field.name}" jdbcType="${field.metaInfo.jdbcType}" property="${field.propertyName}" />
+#end
+#end
+#foreach($field in ${table.commonFields})##生成公共字段
+        <result column="${field.name}" jdbcType="${field.metaInfo.jdbcType}" property="${field.propertyName}" />
+#end
+#foreach($field in ${table.fields})
+#if(!${field.keyFlag})##生成普通字段
+        <result column="${field.name}" jdbcType="${field.metaInfo.jdbcType}" property="${field.propertyName}" />
+#end
+#end
+    </resultMap>
+    <resultMap id="BaseVOResultMap" extends="BaseResultMap"
+               type="${package.VO}.${entity}VO">
+    </resultMap>
+
+#end
+#if(${baseColumnList})
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+#foreach($field in ${table.commonFields})
+        ${field.columnName},
+#end
+        ${table.fieldNames}
+    </sql>
+#if(${table.nameAcronym})
+    <sql id="Alias_Base_Column_List">
+#foreach($field in ${table.commonFields})
+        ${table.nameAcronym}.${field.columnName},
+#end
+        ${table.nameAcronymFieldNames}
+    </sql>
+#end
+#end
+
+    <select id="selectVOPage" resultMap="BaseVOResultMap">
+        select
+#if(${table.nameAcronym})
+        <include refid="Alias_Base_Column_List"/>
+#else
+        <include refid="Base_Column_List"/>
+#end
+#if(${table.nameAcronym})
+        from $!{table.name} ${table.nameAcronym}
+        where ${table.nameAcronym}.deleted = 0
+#else
+        from $!{table.name}
+        where deleted = 0
+#end
+    </select>
+</mapper>
