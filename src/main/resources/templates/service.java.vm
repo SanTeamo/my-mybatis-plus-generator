@@ -42,5 +42,13 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
      * @return 新增或修改结果
      */
     Result<?> submit(${entity} entity);
+
+    /**
+     * 删除$!{table.comment}
+     *
+     * @param id id
+     * @return 删除结果
+     */
+     Result<?> delete(Long id);
 }
 #end

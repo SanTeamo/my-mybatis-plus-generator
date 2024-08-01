@@ -51,5 +51,10 @@ public class ${table.serviceImplName}
     public Result<?> submit(${entity} entity) {
         return Result.status(saveOrUpdate(entity));
     }
+
+    @Override
+    public Result<?> delete(Long id) {
+        return Result.status(removeById(id));
+    }
 }
 #end

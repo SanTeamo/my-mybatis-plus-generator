@@ -25,19 +25,22 @@ public class MySQLGeneratorTest extends BaseGeneratorTest {
         // 包路径 TODO 改成自己的包路径
 //        final String packagePath = "org.springblade.sanitation";
 //        final String packagePath = "cn.szkjzx.smartpark";
-        final String packagePath = "cn.zzzhzzjcpt.self";
+//        final String packagePath = "cn.zzzhzzjcpt.self";
+//        final String packagePath = "com.kaijie.mobile_terminal.self";
 //        final String packagePath = "org.springblade.onetable";
+//        final String packagePath = "cn.szkjzx.wuhanrailtransit";
+        final String packagePath = "cn.szkjzx.energymanager";
         // 模块名称 TODO 改成自己的模块名称
-        final String moduleName = "approval";
+        final String moduleName = "base";
         // 模块路径
         final String modulePath = outputDir + "\\" + packagePath.replace(".", "\\") + "\\" + moduleName;
         final String mapperPath = modulePath + "\\mapper";
         final String dtoPath = modulePath + "\\dto";
         final String voPath = modulePath + "\\vo";
         // TODO 改成要生成文件的表名，英文逗号分隔
-        final String tableNameStr = "t_ent_parking_record";
+        final String tableNameStr = "t_location";
         FastAutoGenerator.create(
-                "jdbc:mysql://10.5.56.210:3306/newparkplatform?serverTimezone=Asia/Shanghai&useSSL=false&allowMultiQueries=true",
+                "jdbc:mysql://192.168.2.23:3306/energy_manager_system?serverTimezone=Asia/Shanghai&useSSL=false&allowMultiQueries=true",
                         "root", "121212")
                 .globalConfig(builder -> {
                     // TODO 改成自己的名称
