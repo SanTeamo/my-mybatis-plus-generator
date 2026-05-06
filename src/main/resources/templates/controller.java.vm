@@ -16,6 +16,7 @@ import ${superControllerClassPackage};
 #if(${swagger})
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 #end
 #if(${entityLombokModel})
 import lombok.RequiredArgsConstructor;
@@ -106,14 +107,14 @@ public class ${table.controllerName} {
     /**
      * 删除$!{table.comment}
      *
-     * @param entity $!{table.comment}
+     * @param id id
      * @return 删除结果
      */
     @PostMapping("/remove")
     #if(${swagger})
     @ApiOperation(value = "逻辑删除", notes = "传入id")
     #end
-    public Result<?> submit(@ApiParam(value = "主键", required = true) @RequestParam Long id) {
+    public Result<?> remove(@ApiParam(value = "主键", required = true) @RequestParam Long id) {
         return service.delete(id);
     }
 

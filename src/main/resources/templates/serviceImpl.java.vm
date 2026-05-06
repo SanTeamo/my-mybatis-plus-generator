@@ -7,6 +7,8 @@ import ${package.Service}.${table.serviceName};
 import ${package.VO}.${entity}VO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import ${superServiceImplClassPackage};
+import org.springblade.core.tool.api.R;
+import org.springblade.core.tool.utils.Func;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

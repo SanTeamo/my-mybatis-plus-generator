@@ -61,5 +61,8 @@
         from $!{table.name}
         where deleted = 0
 #end
+        <if test="searchDTO.id != null">
+            and ${table.nameAcronym}.id = #{searchDTO.id,jdbcType=BIGINT}
+        </if>
     </select>
 </mapper>

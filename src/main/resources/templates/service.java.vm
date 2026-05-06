@@ -5,6 +5,7 @@ import ${package.Entity}.${entity};
 import ${package.VO}.${entity}VO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import ${superServiceClassPackage};
+import org.springblade.core.tool.api.R;
 
 /**
  * <p>
@@ -49,6 +50,6 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
      * @param id id
      * @return 删除结果
      */
-     Result<?> delete(Long id);
+    Result<?> delete(Long id);
 }
 #end
